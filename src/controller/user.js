@@ -1,5 +1,5 @@
 const User = require("../model/user");
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 module.exports.signup = (req, res) => {
@@ -36,12 +36,8 @@ module.exports.signin = (req, res) => {
     User.findOne({ email: email }).then(async (user) => {
         if(user){   
             const passwordMatched = await bcrypt.compare(password, user.password)
-            if(passwordMatched){
-                let token = jwt.sign({ 
-                                    name: req.body.name,
-                                    email: req.body.name
-                                    }, process.env.JWT_SECURITY_KEY);
-                return res.status(200).json({ token, user })
+            if(passwordMatched){ 
+                return res.status(200).json({ token: jwt.sign({ _id: user._id }, process.env.JWT_SECURITY_KEY, { expiresIn: '15d' }) , user })
             }
             else{
                 return res.status(422).json({ message: 'Email or Password is wrong' })
