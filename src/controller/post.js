@@ -27,3 +27,12 @@ module.exports.getPosts = async (req, res) => {
         return res.status(404).json({ message: 'posts not found' })
     }
 }
+
+module.exports.getPostsByUser = async (req, res) => {
+    const posts = await Post.find({ postedBy: req.user._id }).populate('postedBy', '_id name')
+    if(posts.length > 0){
+        return res.status(200).json({ posts: posts })
+    }else{
+        return res.status(404).json({ message: 'posts not found' })
+    }
+}
