@@ -15,7 +15,8 @@ mongoose.set('useCreateIndex', true);
 
 mongoose.connect(`mongodb+srv://admin:admin@cluster0.2gnhl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, {
     useNewUrlParser : true,
-    useUnifiedTopology : true
+    useUnifiedTopology : true,
+    useFindAndModify: false
 }).then(() => console.log("DB CONNECTED")).catch((err) => console.log("Error: ", err))
 
 
